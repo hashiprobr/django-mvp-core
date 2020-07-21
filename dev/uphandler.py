@@ -38,7 +38,7 @@ class ChannelTemporaryFileUploadHandler(ChannelFileUploadHandler, TemporaryFileU
 
     def receive_data_chunk(self, raw_data, start):
         super().receive_data_chunk(raw_data, start)
-        self.partial += self.chunk_size
+        self.partial = min(self.partial + self.chunk_size, self.total)
         progress = int(100 * (self.partial / self.total) + 0.5)
         if progress > self.progress:
             self.progress = progress
