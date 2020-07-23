@@ -244,8 +244,3 @@ EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', False)
 EMAIL_USE_SSL = env.bool('EMAIL_USE_SSL', False)
 
 DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', 'webmaster@localhost')
-
-
-LOGIN_URL = '/login'
-
-LOGIN_REDIRECT_URL = '/'
