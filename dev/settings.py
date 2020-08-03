@@ -87,6 +87,30 @@ TEMPLATES = [
 ASGI_APPLICATION = BASE_NAME + '.routing.application'
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '{}:{}'.format(env.str('CACHE_HOST', 'localhost'), env.int('CACHE_PORT', 11210)),
+        'KEY_PREFIX': 'test' if TESTING else '',
+    },
+}
+
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -218,21 +242,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_REFERRER_POLICY = 'same-origin'
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
-    },
-}
-
-
 EMAIL_HOST = env.str('EMAIL_HOST', 'localhost')
 
 EMAIL_PORT = env.int('EMAIL_PORT', 1025)
@@ -246,11 +255,3 @@ EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', False)
 EMAIL_USE_SSL = env.bool('EMAIL_USE_SSL', False)
 
 DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', 'webmaster@localhost')
-
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-        'LOCATION': '{}:{}'.format(env.str('CACHE_HOST', 'localhost'), env.int('CACHE_PORT', 11210)),
-    },
-}
